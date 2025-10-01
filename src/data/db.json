@@ -1,0 +1,77 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "nom": "admin",
+      "email": "admin@mail.com",
+      "password": "secret",
+      "role": "admin",
+      "favorites": [
+        "2",
+        "1"
+      ]
+    },
+    {
+      "id": "2",
+      "nom": "alice",
+      "email": "alice@mail.com",
+      "password": "test123",
+      "role": "user",
+      "favorites": [
+        "1"
+      ]
+    },
+    {
+      "id": "3",
+      "nom": "chadi",
+      "email": "usersss@mail.com",
+      "password": "12442",
+      "role": "user",
+      "favorites": []
+    }
+  ],
+  "medias": [
+    {
+      "id": "1",
+      "type": "film",
+      "titre": "Inception",
+      "genre": "drame",
+      "annee": 2009,
+      "note": 8,
+      "duree": 148,
+      "plateforme": "Netflix",
+      "vu": false
+    },
+    {
+      "id": "2",
+      "type": "serie",
+      "titre": "Dark",
+      "genre": "thriller",
+      "annee": 2017,
+      "note": 8,
+      "statut": "en_cours",
+      "saisons": [
+        {
+          "numero": 1,
+          "dateSortie": "2017-12-01",
+          "episodes": [
+            {
+              "id": "1",
+              "titre": "Secrets",
+              "duree": 50,
+              "numero": 1,
+              "vu": false
+            },
+            {
+              "id": "2",
+              "titre": "Lies",
+              "duree": 52,
+              "numero": 2,
+              "vu": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

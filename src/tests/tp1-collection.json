@@ -1,0 +1,145 @@
+{
+  "info": {
+    "name": "TP1 - Gestion séries & films",
+    "description": "Collection de tests TP1 avec utilisateur admin id=1",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET /medias - Tous",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:9594/api/medias"
+      }
+    },
+    {
+      "name": "GET /medias?type=serie&genre=drama&annee=2020",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:9594/api/medias?type=serie&genre=drama&annee=2020"
+      }
+    },
+    {
+      "name": "POST /films - Valide",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "userID", "value": "1" }
+        ],
+        "url": "http://localhost:9594/api/films",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"film\",\n  \"titre\": \"Interstellar\",\n  \"genre\": \"Sci-Fi\",\n  \"annee\": 2014,\n  \"note\": 9,\n  \"duree\": 169,\n  \"plateforme\": \"Netflix\",\n  \"vu\": false\n}"
+        }
+      }
+    },
+{
+  "name": "POST /series - Valide",
+  "request": {
+    "method": "POST",
+    "header": [
+      { "key": "Content-Type", "value": "application/json" },
+      { "key": "userID", "value": "1" }
+    ],
+    "url": "http://localhost:9594/api/series",
+    "body": {
+      "mode": "raw",
+      "raw": "{\n  \"type\": \"serie\",\n  \"titre\": \"Breaking Bad\",\n  \"genre\": \"Crime\",\n  \"annee\": 2008,\n  \"note\": 10,\n  \"plateforme\": \"Netflix\",\n  \"statut\": \"en_cours\"\n}"
+    }
+  }
+},
+{
+  "name": "POST /seasons - Valide",
+  "request": {
+    "method": "POST",
+    "header": [
+      { "key": "Content-Type", "value": "application/json" },
+      { "key": "userID", "value": "1" }
+    ],
+    "url": "http://localhost:9594/api/saisons",
+    "body": {
+      "mode": "raw",
+      "raw": "{\n  \"serieId\": \"2\",\n  \"numero\": 2\n}"
+    }
+  }
+}
+,
+    {
+      "name": "POST /episodes - Valide",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "userID", "value": "1" }
+        ],
+        "url": "http://localhost:9594/api/episodes",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"serieId\": \"2\",\n  \"saisonNumero\": 1,\n  \"numero\": 3,\n  \"titre\": \"New Episode\",\n  \"duree\": 45\n}"
+        }
+      }
+    },
+{
+  "name": "PATCH /series/:serieId/saisons/:saisonNumero/episodes/:episodeId - Valide",
+  "request": {
+    "method": "PATCH",
+    "header": [
+      { "key": "Content-Type", "value": "application/json" }
+
+    ],
+    "url": "http://localhost:9594/api/series/2/saisons/1/episodes/1",
+    "body": {
+      "mode": "raw",
+      "raw": "{ \"vu\": false }"
+    }
+  }
+}
+,
+    {
+      "name": "POST /films - Titre manquant (Invalide)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "userID", "value": "1" }
+        ],
+        "url": "http://localhost:9594/api/films",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"film\",\n  \"genre\": \"Sci-Fi\",\n  \"annee\": 2014,\n  \"note\": 9,\n  \"duree\": 169,\n  \"plateforme\": \"Netflix\"\n}"
+        }
+      }
+    },
+    {
+      "name": "POST /films - Titre invalide (Invalide)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "userID", "value": "1" }
+        ],
+        "url": "http://localhost:9594/api/films",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"film\",\n  \"titre\": \"@@@###\",\n  \"genre\": \"Sci-Fi\",\n  \"annee\": 2014,\n  \"note\": 9,\n  \"duree\": 169,\n  \"plateforme\": \"Netflix\"\n}"
+        }
+      }
+    },
+    {
+      "name": "POST /films - Année future (Invalide)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "userID", "value": "1" }
+        ],
+        "url": "http://localhost:9594/api/films",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"film\",\n  \"titre\": \"Future Film\",\n  \"genre\": \"Sci-Fi\",\n  \"annee\": 2099,\n  \"note\": 9,\n  \"duree\": 120,\n  \"plateforme\": \"Netflix\"\n}"
+        }
+      }
+    }
+  ]
+}

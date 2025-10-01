@@ -1,0 +1,10 @@
+{"level":"info","message":{"action":"CREATE_FILM","id":"3"},"timestamp":"2025-09-30 22:30:30"}
+{"level":"info","message":{"action":"CREATE_SERIE","id":"4"},"timestamp":"2025-09-30 22:30:30"}
+{"level":"info","message":{"action":"ADD_SAISON","serieId":"2"},"timestamp":"2025-09-30 22:30:30"}
+{"level":"info","message":{"action":"ADD_EPISODE","serieId":"2"},"timestamp":"2025-09-30 22:30:30"}
+{"level":"info","message":{"action":"PATCH_EPISODE","episodeId":"1","saisonNumero":"1","serieId":"2","vu":false},"timestamp":"2025-09-30 22:30:30"}
+{"level":"info","message":{"action":"CREATE_FILM","id":"5"},"timestamp":"2025-09-30 22:45:15"}
+{"level":"info","message":{"action":"CREATE_SERIE","id":"6"},"timestamp":"2025-09-30 22:45:15"}
+{"level":"info","message":{"action":"ADD_SAISON","serieId":"2"},"timestamp":"2025-09-30 22:45:15"}
+{"level":"info","message":{"action":"ADD_EPISODE","serieId":"2"},"timestamp":"2025-09-30 22:45:15"}
+{"level":"info","message":{"action":"PATCH_EPISODE","episodeId":"1","saisonNumero":"1","serieId":"2","vu":false},"timestamp":"2025-09-30 22:45:15"}
