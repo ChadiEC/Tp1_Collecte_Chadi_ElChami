@@ -111,4 +111,4 @@ npm run start
 ## 👨‍💻 Auteur
 
 Projet réalisé par **Chadi El-Chami**  
-Collège — Automne 2025  
+Cégep Marie-Victorin — Automne 2025  
