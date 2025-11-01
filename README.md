@@ -138,8 +138,15 @@ Cégep Marie-Victorin — Automne 2025
 ---
 
 ## ⚙️ Installation & Lancement
+**Cloner le projet :**
 
-### 📦 Après un `git pull`
+```bash
+git clone https://github.com/ChadiEC/Tp1_Collecte_Chadi_ElChami.git
+
+Tp1_Collecte_Chadi_ElChami
+```
+### 📦 Après un `git clone`
+
 
 1️⃣ **Installer les dépendances :**
 
@@ -149,7 +156,7 @@ npm install
 
 2️⃣ **Créer un fichier `.env` à la racine du projet :**
 
-* Inspire-toi du fichier `.env.example`
+* Inspirez-vous du fichier `.env.example`
 * Il doit contenir tes variables sensibles (ex: clés JWT, secrets, ports, certificats HTTPS)
 * ⚠️ Le `.env` **n’est pas inclus dans le dépôt** pour des raisons de sécurité
 
