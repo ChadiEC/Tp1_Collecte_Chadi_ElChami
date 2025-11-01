@@ -8,3 +8,35 @@
 {"level":"info","message":{"action":"ADD_SAISON","serieId":"2"},"timestamp":"2025-09-30 22:45:15"}
 {"level":"info","message":{"action":"ADD_EPISODE","serieId":"2"},"timestamp":"2025-09-30 22:45:15"}
 {"level":"info","message":{"action":"PATCH_EPISODE","episodeId":"1","saisonNumero":"1","serieId":"2","vu":false},"timestamp":"2025-09-30 22:45:15"}
+{"level":"error","message":"404 - Not Found - GET /","timestamp":"2025-10-21 21:01:51"}
+{"level":"error","message":"404 - Not Found - GET /favicon.ico","timestamp":"2025-10-21 21:01:51"}
+{"level":"error","message":"404 - Not Found - GET /","timestamp":"2025-10-21 21:25:29"}
+{"level":"error","message":"404 - Not Found - GET /favicon.ico","timestamp":"2025-10-21 21:25:29"}
+{"level":"error","message":"404 - Not Found - GET /","timestamp":"2025-10-21 21:25:35"}
+{"level":"error","message":"404 - Not Found - POST /api/v2/films","timestamp":"2025-10-21 23:51:29"}
+{"level":"error","message":"404 - Not Found - POST /api/v2/films","timestamp":"2025-10-21 23:55:40"}
+{"level":"error","message":"404 - Not Found - POST /api/v2/films","timestamp":"2025-10-22 00:04:48"}
+{"level":"error","message":"404 - Not Found - POST /api/v2/films","timestamp":"2025-10-22 00:12:09"}
+{"level":"error","message":"404 - Not Found - POST /api/v2/films","timestamp":"2025-10-22 00:12:28"}
+{"level":"error","message":"404 - Not Found - POST /api/v2/films/2","timestamp":"2025-10-22 00:19:47"}
+{"level":"error","message":"404 - Not Found - POST /api/v2/films/68f85a4e40f5977d9a864df5","timestamp":"2025-10-22 00:20:06"}
+{"level":"error","message":"404 - Not Found - POST /api/v2/user/1/favorites","timestamp":"2025-10-22 00:31:22"}
+{"level":"error","message":"404 - Not Found - POST /api/v2/user/1/favorites","timestamp":"2025-10-22 00:31:45"}
+{"level":"error","message":"404 - Not Found - POST /api/v2/user/1/favorites","timestamp":"2025-10-22 00:32:00"}
+{"level":"error","message":"404 - Not Found - GET /api/v2/users/","timestamp":"2025-10-22 16:46:08"}
+{"level":"error","message":"404 - Not Found - GET /api/v2/users/1","timestamp":"2025-10-22 16:46:15"}
+{"level":"error","message":"404 - Not Found - POST /api/v2/series/1","timestamp":"2025-10-22 20:03:42"}
+{"level":"error","message":"404 - Not Found - GET /api/v2/saisons","timestamp":"2025-10-22 20:04:22"}
+{"level":"error","message":"404 - Not Found - GET /api/v2/series/2/saisons/episodes","timestamp":"2025-10-22 20:05:36"}
+{"level":"error","message":"404 - Not Found - POST /api/v2/series/1/seasons","timestamp":"2025-10-24 10:42:46"}
+{"level":"error","message":"404 - Not Found - POST /api/v2/series/1/seasons","timestamp":"2025-10-24 10:43:00"}
+{"level":"error","message":"404 - Not Found - POST /api/v2/series/1/seasons/1/episodes","timestamp":"2025-10-24 10:45:14"}
+{"level":"error","message":"404 - Not Found - GET /api/v2/ratings/avg/films/1","timestamp":"2025-10-24 12:03:49"}
+{"level":"error","message":"404 - Not Found - GET /favicon.ico","timestamp":"2025-10-30 18:50:21"}
+{"level":"error","message":"404 - Not Found - GET /docs","timestamp":"2025-10-31 18:58:14"}
+{"level":"error","message":"404 - Not Found - GET /favicon.ico","timestamp":"2025-10-31 18:58:14"}
+{"level":"error","message":"404 - Not Found - POST /api/v2/users/1/favorites/Film/1","timestamp":"2025-10-31 20:31:30"}
+{"level":"error","message":"404 - Not Found - PATCH /api/v2/users/me","timestamp":"2025-10-31 21:28:09"}
+{"level":"error","message":"404 - Not Found - PATCH /api/v2/users/me","timestamp":"2025-10-31 21:28:21"}
+{"level":"error","message":"404 - Not Found - PATCH /api/v2/users/me","timestamp":"2025-10-31 21:29:11"}
+{"level":"error","message":"404 - Not Found - PATCH /api/v2/users/me","timestamp":"2025-10-31 21:31:24"}

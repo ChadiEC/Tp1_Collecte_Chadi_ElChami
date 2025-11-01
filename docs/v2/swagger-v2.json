@@ -1,0 +1,344 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "API v2 - Gestion de médias (Mongo + JWT)",
+    "version": "2.0.0",
+    "description": "Version MongoDB + JWT de l’API de suivi de films et séries.\n\nToutes les routes de la v2 sont sécurisées par JWT et respectent les rôles (admin, user).\n\n🧑‍💻 En dev : http://localhost:3000/api/v2\n🔒 En prod : https://localhost:3443/api/v2"
+  },
+  "servers": [
+    { "url": "/api/v2" }
+  ],
+  "tags": [
+    { "name": "Auth", "description": "Authentification et génération de JWT" },
+    { "name": "Users", "description": "Gestion des utilisateurs et favoris" },
+    { "name": "Films", "description": "CRUD des films (admin requis pour écriture)" },
+    { "name": "Series", "description": "CRUD des séries (admin requis)" },
+    { "name": "Ratings", "description": "Notation des films et épisodes" }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "integer", "example": 400 },
+          "message": { "type": "string", "example": "Erreur de validation ou accès interdit." }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "email": { "type": "string", "example": "admin12@example.com" },
+          "username": { "type": "string", "example": "admin12" },
+          "nom": { "type": "string", "example": "Jean Dupont" },
+          "role": { "type": "string", "enum": ["user", "admin"], "example": "user" }
+        }
+      },
+      "RegisterRequest": {
+        "type": "object",
+        "required": ["email", "username", "password", "nom"],
+        "properties": {
+          "email": { "type": "string", "format": "email", "example": "admin12@example.com" },
+          "username": { "type": "string", "minLength": 3, "example": "admin12" },
+          "nom": { "type": "string", "example": "Jean Dupont" },
+          "password": { "type": "string", "minLength": 8, "example": "Password123!" },
+          "role": { "type": "string", "enum": ["user", "admin"], "example": "admin" }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": { "type": "string", "example": "admin12@example.com" },
+          "password": { "type": "string", "example": "Password123!" }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": { "type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }
+        }
+      },
+      "Film": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "titre": { "type": "string", "example": "Inception" },
+          "genre": { "type": "string", "example": "Science Fiction" },
+          "duree": { "type": "integer", "example": 148 },
+          "vu": { "type": "boolean", "example": false }
+        }
+      },
+      "FilmCreate": {
+        "type": "object",
+        "required": ["titre", "duree"],
+        "properties": {
+          "titre": { "type": "string", "example": "Inception" },
+          "genre": { "type": "string", "example": "Science Fiction" },
+          "duree": { "type": "integer", "example": 148 },
+          "vu": { "type": "boolean", "example": false }
+        }
+      },
+      "Series": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "titre": { "type": "string", "example": "Breaking Future" },
+          "genre": { "type": "string", "example": "Science Fiction" },
+          "nbEpisodes": { "type": "integer", "example": 10 },
+          "status": { "type": "string", "enum": ["En cours", "Terminée"], "example": "En cours" }
+        }
+      },
+      "SeriesCreate": {
+        "type": "object",
+        "required": ["titre", "nbEpisodes"],
+        "properties": {
+          "titre": { "type": "string", "example": "Breaking Future" },
+          "genre": { "type": "string", "example": "Science Fiction" },
+          "nbEpisodes": { "type": "integer", "example": 10 },
+          "status": { "type": "string", "enum": ["En cours", "Terminée"], "example": "En cours" }
+        }
+      },
+      "Rating": {
+        "type": "object",
+        "required": ["target", "targetId", "score"],
+        "properties": {
+          "target": { "type": "string", "enum": ["Film", "Episode"], "example": "Film" },
+          "targetId": { "type": "integer", "example": 1 },
+          "score": { "type": "number", "minimum": 0, "maximum": 10, "example": 9 },
+          "review": { "type": "string", "maxLength": 2000, "example": "Très bon film, scénario exceptionnel." }
+        }
+      },
+      "FavoriteCreate": {
+        "type": "object",
+        "required": ["kind", "targetId"],
+        "properties": {
+          "kind": { "type": "string", "enum": ["Film", "Series"], "example": "Film" },
+          "targetId": { "type": "integer", "example": 1 }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Créer un utilisateur",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RegisterRequest" } } }
+        },
+        "responses": {
+          "201": { "description": "Utilisateur créé" },
+          "400": { "description": "Champs manquants ou invalides" },
+          "409": { "description": "Email déjà utilisé" },
+          "500": { "description": "Erreur serveur" }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Connexion utilisateur",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/LoginRequest" } } }
+        },
+        "responses": {
+          "200": { "description": "Connexion réussie", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/LoginResponse" } } } },
+          "401": { "description": "Identifiants invalides" },
+          "429": { "description": "Trop de tentatives (rate-limit)" },
+          "500": { "description": "Erreur serveur" }
+        }
+      }
+    },
+    "/films": {
+      "get": {
+        "tags": ["Films"],
+        "summary": "Lister les films (avec pagination et filtres)",
+        "parameters": [
+          { "name": "genre", "in": "query", "schema": { "type": "string" }, "description": "Filtrer par genre" },
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 }, "description": "Numéro de page" },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "default": 10 }, "description": "Résultats par page" }
+        ],
+        "responses": {
+          "200": { "description": "Liste paginée des films" },
+          "500": { "description": "Erreur serveur" }
+        }
+      },
+      "post": {
+        "tags": ["Films"],
+        "summary": "Créer un film (admin uniquement)",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/FilmCreate" } } } },
+        "responses": {
+          "201": { "description": "Film créé" },
+          "400": { "description": "Requête invalide" },
+          "401": { "description": "Non authentifié" },
+          "403": { "description": "Admin requis" }
+        }
+      }
+    },
+    "/films/{id}": {
+      "get": {
+        "tags": ["Films"],
+        "summary": "Obtenir un film par ID",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": {
+          "200": { "description": "Film trouvé" },
+          "404": { "description": "Film introuvable" }
+        }
+      }
+    },
+    "/series": {
+      "get": {
+        "tags": ["Series"],
+        "summary": "Lister les séries (avec pagination)",
+        "parameters": [
+          { "name": "genre", "in": "query", "schema": { "type": "string" } },
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "default": 10 } }
+        ],
+        "responses": { "200": { "description": "Liste paginée des séries" } }
+      },
+      "post": {
+        "tags": ["Series"],
+        "summary": "Créer une série (admin)",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SeriesCreate" } } } },
+        "responses": {
+          "201": { "description": "Série créée" },
+          "403": { "description": "Admin requis" }
+        }
+      }
+    },
+    "/ratings": {
+      "post": {
+        "tags": ["Ratings"],
+        "summary": "Noter un film ou un épisode",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Rating" } } } },
+        "responses": {
+          "201": { "description": "Note enregistrée" },
+          "400": { "description": "Données invalides" },
+          "401": { "description": "Non authentifié" }
+        }
+      }
+    },
+    "/ratings/avg/films/{filmId}": {
+      "get": {
+        "tags": ["Ratings"],
+        "summary": "Obtenir la moyenne des notes d’un film",
+        "parameters": [{ "name": "filmId", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": {
+          "200": { "description": "Moyenne calculée" },
+          "404": { "description": "Film introuvable" }
+        }
+      }
+    },
+    "/users/{id}/favorites": {
+  "get": {
+    "tags": ["Users"],
+    "summary": "Lister les favoris d’un utilisateur",
+    "description": "Retourne la liste des films et séries ajoutés aux favoris de l’utilisateur.",
+    "security": [{ "bearerAuth": [] }],
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "description": "ID de l'utilisateur (id auto-incrémenté ou ObjectId)",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "example": "1"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Liste des favoris de l'utilisateur",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/FavoriteItem"
+              }
+            },
+            "example": [
+              {
+                "kind": "Film",
+                "targetId": 1,
+                "titre": "Inception",
+                "genres": ["Science Fiction", "Thriller"]
+              },
+              {
+                "kind": "Series",
+                "targetId": 3,
+                "titre": "Breaking Future",
+                "genres": ["Science Fiction"]
+              }
+            ]
+          }
+        }
+      },
+      "401": { "description": "Non authentifié (JWT manquant ou invalide)" },
+      "404": { "description": "Utilisateur introuvable" }
+    }
+  },
+  "post": {
+    "tags": ["Users"],
+    "summary": "Ajouter un favori (Film ou Série)",
+    "description": "Ajoute un film ou une série aux favoris d’un utilisateur.",
+    "security": [{ "bearerAuth": [] }],
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "description": "ID de l'utilisateur (id auto-incrémenté ou ObjectId)",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "example": "1"
+        }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/FavoriteRequest"
+          },
+          "example": {
+            "kind": "Film",
+            "targetId": 1
+          }
+        }
+      }
+    },
+    "responses": {
+      "201": {
+        "description": "Favori ajouté",
+        "content": {
+          "application/json": {
+            "example": {
+              "message": "Favori ajouté avec succès",
+              "favori": {
+                "userId": 1,
+                "kind": "Film",
+                "targetId": 1
+              }
+            }
+          }
+        }
+      },
+      "400": { "description": "Requête invalide" },
+      "401": { "description": "Non authentifié (JWT manquant ou invalide)" },
+      "404": { "description": "Film ou Série introuvable" }
+    }
+  }
+}}}

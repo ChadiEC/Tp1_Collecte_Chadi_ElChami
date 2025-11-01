@@ -1,6 +1,6 @@
 import { readFile, writeFile } from "fs/promises";
 import path from "path";
-const DB_PATH = path.resolve("src/data/db.json");
+const DB_PATH = path.resolve("src/v1/data/db.json");
 
 type DbShape = {
   medias: any[];

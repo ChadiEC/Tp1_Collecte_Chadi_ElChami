@@ -1,0 +1,39 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "API v1 (deprecated)",
+    "version": "1.0.0",
+    "description": "Ancienne version de l’API basée sur JSON, sans MongoDB ni JWT. Cette version est **deprecated**."
+  },
+  "servers": [
+    { "url": "http://localhost:3000/api/v1" }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "summary": "Liste des utilisateurs (v1)",
+        "description": "Retourne uniquement id + username (exigence du labo).",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "integer", "example": 1 },
+                      "username": { "type": "string", "example": "alice" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true
+      }
+    }
+  }
+}

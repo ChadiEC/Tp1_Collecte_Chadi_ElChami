@@ -1,0 +1,4 @@
+{
+    "db": {"uri": "mongodb://localhost:27017/media_dev"},
+    "security": {"jwt":{"expiresIn": "2h"}}
+}
