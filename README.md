@@ -169,6 +169,12 @@ PORT=3000
 MONGO_URI=mongodb://localhost:27017/media_dev
 ```
 
+Il est aussi possible de lancé cette commande :
+
+```bash
+cp .env.example .env
+```
+
 3️⃣ **Lancer selon l’environnement :**
 
 | Environnement | Commande             | Port | Base Mongo | HTTPS |
@@ -230,6 +236,7 @@ Pour les régénérer localement :
 
 ```bash
 mkdir certs
+cd certs
 openssl req -nodes -new -x509 -keyout certs/key.pem -out certs/cert.pem
 ```
 
