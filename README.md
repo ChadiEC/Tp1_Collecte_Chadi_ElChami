@@ -143,7 +143,7 @@ Cégep Marie-Victorin — Automne 2025
 ```bash
 git clone https://github.com/ChadiEC/Tp1_Collecte_Chadi_ElChami.git
 
-Tp1_Collecte_Chadi_ElChami
+cd Tp1_Collecte_Chadi_ElChami
 ```
 ### 📦 Après un `git clone`
 
@@ -236,7 +236,6 @@ Pour les régénérer localement :
 
 ```bash
 mkdir certs
-cd certs
 openssl req -nodes -new -x509 -keyout certs/key.pem -out certs/cert.pem
 ```
 
